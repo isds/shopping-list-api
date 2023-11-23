@@ -18,9 +18,9 @@ async def read_items():
 
 @app.get('/items/{uuid}')
 async def read_item_by_id(uuid: str):
-    result: list[Item] = [item for item in market_list if item.id == uuid]
-    if result:
-        return result[0].model_dump_json()
+    item = next((item for item in market_list if item.id == uuid), None)
+    if item:
+        return item.model_dump_json()
     raise HTTPException(status_code=404, detail='Item not found')
 
 
